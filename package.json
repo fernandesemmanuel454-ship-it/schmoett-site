@@ -1,0 +1,28 @@
+{
+  "name": "schmoett-site",
+  "version": "1.0.0",
+  "description": "Schmoett - Pizzas & Burgers Faits Maison",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node -e \"console.log('Development server would run here')\"",
+    "start": "node -e \"console.log('Production server would run here')\""
+  },
+  "keywords": [
+    "pizza",
+    "burger",
+    "food",
+    "delivery",
+    "schmoett"
+  ],
+  "author": "Emmanuel Fernandes",
+  "license": "MIT",
+  "dependencies": {
+    "stripe": "^15.0.0",
+    "nodemailer": "^6.9.7",
+    "@vercel/edge-config": "^1.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

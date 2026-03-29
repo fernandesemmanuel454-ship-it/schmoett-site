@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Schmoett Admin — Gestion Stock</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--bg2:#141414;--accent:#E8450A;--text:#F0E6C8;--text2:rgba(240,230,200,.5);--green:#22C55E;--red:#EF4444;--border:rgba(240,230,200,.08)}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:1rem;max-width:800px;margin:0 auto}
+h1{font-size:1.4rem;font-weight:800;margin-bottom:.3rem}
+.sub{color:var(--text2);font-size:.85rem;margin-bottom:1.5rem}
+.login{text-align:center;padding:4rem 1rem}
+.login h2{margin-bottom:1rem}
+.login input{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.7rem 1rem;border-radius:10px;font-size:1rem;width:100%;max-width:300px;margin-bottom:.8rem;font-family:'DM Sans',sans-serif}
+.login input:focus{border-color:var(--accent);outline:none}
+.login button{background:var(--accent);color:#fff;border:none;padding:.7rem 2rem;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer}
+.cat-title{font-size:1rem;font-weight:700;color:var(--accent);margin:1.5rem 0 .5rem;text-transform:uppercase;letter-spacing:1px;font-size:.8rem}
+.item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;margin-bottom:.4rem;display:flex;justify-content:space-between;align-items:center}
+.item-info{flex:1}
+.item-name{font-weight:700;font-size:.9rem}
+.item-price{font-size:.8rem;color:var(--text2)}
+.toggle{position:relative;width:48px;height:26px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--red);border-radius:13px;transition:.3s}
+.slider::before{content:'';position:absolute;height:20px;width:20px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.toggle input:checked+.slider{background:var(--green)}
+.toggle input:checked+.slider::before{transform:translateX(22px)}
+.save-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);padding:1rem;text-align:center}
+.save-btn{background:var(--accent);color:#fff;border:none;padding:.7rem 2rem;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer}
+.save-btn:disabled{opacity:.5;cursor:not-allowed}
+.status{font-size:.8rem;margin-top:.5rem;color:var(--green)}
+#adminPanel{display:none}
+</style>
+</head>
+<body>
+
+<div class="login" id="loginPanel">
+    <h2>🔐 Admin Schmoett</h2>
+    <p style="color:var(--text2);margin-bottom:1rem;font-size:.85rem">Mot de passe requis</p>
+    <input type="password" id="pwdInput" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')doLogin()">
+    <br>
+    <button onclick="doLogin()">Connexion</button>
+</div>
+
+<div id="adminPanel">
+    <h1>⚙️ Gestion du Stock</h1>
+    <p class="sub">Active ou désactive les produits en temps réel.</p>
+    <div id="productsList"></div>
+    <div style="height:80px"></div>
+    <div class="save-bar">
+        <button class="save-btn" id="saveBtn" onclick="saveStock()">💾 Sauvegarder</button>
+        <div class="status" id="saveStatus"></div>
+    </div>
+</div>
+
+<script>
+let password = '';
+const PRODUCTS = [
+  {id:'p1',name:'Margarita',price:11.90,cat:'pizza'},
+  {id:'p2',name:'Jambon',price:12.90,cat:'pizza'},
+  {id:'p3',name:'Champignons',price:12.90,cat:'pizza'},
+  {id:'p4',name:'Diavola',price:13.50,cat:'pizza'},
+  {id:'p5',name:'Salami',price:13.50,cat:'pizza'},
+  {id:'p6',name:'Calzone',price:14.00,cat:'pizza'},
+  {id:'p7',name:'Thon',price:14.00,cat:'pizza'},
+  {id:'p8',name:'Jambon & Champignons',price:14.50,cat:'pizza'},
+  {id:'p9',name:'Lorraine',price:15.50,cat:'pizza'},
+  {id:'p10',name:'Poulet Halal',price:16.00,cat:'pizza'},
+  {id:'p11',name:'4 Fromages',price:16.00,cat:'pizza'},
+  {id:'p12',name:'Schmoëtt BBQ',price:17.50,cat:'pizza'},
+  {id:'p13',name:'Cristina',price:17.50,cat:'pizza'},
+  {id:'op1',name:'Ingrédient supplémentaire',price:1.50,cat:'option-pizza'},
+  {id:'op2',name:'Pizza XXL',price:10.00,cat:'option-pizza'},
+  {id:'b1',name:'Le Schmoëtt',price:12.90,cat:'burger'},
+  {id:'b2',name:'Le Grand-Ducal',price:16.90,cat:'burger'},
+  {id:'b3',name:'Le Crispy Coq',price:11.90,cat:'burger'},
+  {id:'b4',name:'Le Vege-Malin',price:11.50,cat:'burger'},
+  {id:'t1',name:"L'Original",price:9.90,cat:'tacos'},
+  {id:'t2',name:'Le Crousty',price:8.90,cat:'tacos'},
+  {id:'t3',name:'Le Kebab',price:9.90,cat:'tacos'},
+  {id:'w1',name:'x6 Ailes',price:8.90,cat:'wings'},
+  {id:'w2',name:'x10 Ailes',price:12.90,cat:'wings'},
+  {id:'w3',name:'x20 Bucket',price:24.90,cat:'wings'},
+  {id:'ow1',name:'Sauce supplémentaire',price:1.20,cat:'option-wings'},
+  {id:'a1',name:'Frites',price:3.90,cat:'accompagnement'},
+  {id:'d1',name:'Coca-Cola 33cl',price:2.90,cat:'boisson'},
+  {id:'d2',name:'Coca-Cola Zero 33cl',price:2.90,cat:'boisson'},
+  {id:'d3',name:'Fanta 33cl',price:2.90,cat:'boisson'},
+  {id:'d4',name:'Ice Tea 33cl',price:2.90,cat:'boisson'},
+  {id:'d5',name:'Cristalline 1,5L',price:3.20,cat:'boisson'},
+  {id:'d6',name:'Red Bull 25cl',price:3.50,cat:'boisson'},
+  {id:'d7',name:'Coca-Cola 1,5L',price:3.90,cat:'boisson'},
+  {id:'d8',name:'Fanta 1,5L',price:3.90,cat:'boisson'},
+];
+
+let stockState = {};
+
+async function doLogin() {
+  password = document.getElementById('pwdInput').value;
+  try {
+    const r = await fetch('/api/stock');
+    if (r.ok) stockState = await r.json();
+  } catch(e) {}
+  PRODUCTS.forEach(p => { if (stockState[p.id] === undefined) stockState[p.id] = true; });
+  document.getElementById('loginPanel').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  renderAdmin();
+}
+
+function renderAdmin() {
+  const list = document.getElementById('productsList');
+  const cats = [...new Set(PRODUCTS.map(p => p.cat))];
+  const catNames = {pizza:'🍕 Pizzas','option-pizza':'➕ Options Pizza',burger:'🍔 Burgers',tacos:'🌮 Tacos',wings:'🍗 Ailes','option-wings':'🍶 Options Ailes',accompagnement:'🍟 Accompagnements',boisson:'🥤 Boissons'};
+  let html = '';
+  cats.forEach(cat => {
+    html += '<div class="cat-title">' + (catNames[cat] || cat) + '</div>';
+    PRODUCTS.filter(p => p.cat === cat).forEach(p => {
+      html += '<div class="item"><div class="item-info"><div class="item-name">' + p.name + '</div><div class="item-price">' + p.price.toFixed(2) + '€</div></div><label class="toggle"><input type="checkbox" data-id="' + p.id + '"' + (stockState[p.id] !== false ? ' checked' : '') + ' onchange="toggleStock('' + p.id + '',this.checked)"><span class="slider"></span></label></div>';
+    });
+  });
+  list.innerHTML = html;
+}
+
+function toggleStock(id, val) {
+  stockState[id] = val;
+}
+
+async function saveStock() {
+  const btn = document.getElementById('saveBtn');
+  const status = document.getElementById('saveStatus');
+  btn.disabled = true;
+  btn.textContent = 'Sauvegarde...';
+  try {
+    const r = await fetch('/api/stock', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ password, stock: stockState })
+    });
+    if (r.ok) {
+      status.textContent = '✅ Stock mis à jour !';
+      status.style.color = 'var(--green)';
+    } else {
+      const d = await r.json();
+      status.textContent = '❌ ' + (d.error || 'Erreur');
+      status.style.color = 'var(--red)';
+    }
+  } catch(e) {
+    status.textContent = '❌ Erreur réseau';
+    status.style.color = 'var(--red)';
+  }
+  btn.disabled = false;
+  btn.textContent = '💾 Sauvegarder';
+  setTimeout(() => { status.textContent = ''; }, 3000);
+}
+</script>
+</body>
+</html>
