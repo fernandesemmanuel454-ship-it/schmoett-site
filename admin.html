@@ -117,7 +117,7 @@ function renderAdmin() {
   cats.forEach(cat => {
     html += '<div class="cat-title">' + (catNames[cat] || cat) + '</div>';
     PRODUCTS.filter(p => p.cat === cat).forEach(p => {
-      html += '<div class="item"><div class="item-info"><div class="item-name">' + p.name + '</div><div class="item-price">' + p.price.toFixed(2) + '€</div></div><label class="toggle"><input type="checkbox" data-id="' + p.id + '"' + (stockState[p.id] !== false ? ' checked' : '') + ' onchange="toggleStock('' + p.id + '',this.checked)"><span class="slider"></span></label></div>';
+      html += '<div class="item"><div class="item-info"><div class="item-name">' + p.name + '</div><div class="item-price">' + p.price.toFixed(2) + '€</div></div><label class="toggle"><input type="checkbox" data-id="' + p.id + '"' + (stockState[p.id] !== false ? ' checked' : '') + ' onchange="toggleStock(\x27' + p.id + '\x27,this.checked)"><span class="slider"></span></label></div>';
     });
   });
   list.innerHTML = html;
