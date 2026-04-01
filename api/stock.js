@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
 
   const EC_ID = process.env.EC_ID;
   const EC_TOKEN = process.env.EDGE_CONFIG?.split('token=')[1];
-  const STOCK_KEY = 'schmoett-stock';
+  const STOCK_KEY = 'stock';
 
   if (req.method === 'GET') {
     try {
