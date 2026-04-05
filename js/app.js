@@ -101,17 +101,19 @@ function updateStatus() {
   const bar = document.getElementById('statusBar');
   const txt = document.getElementById('statusText');
   let isOpen = false;
-  // Horaires: Mer-Jeu-Dim 17h30–03h, Ven-Sam 17h30–04h, Lun-Mar fermé
+  // Horaires: Mer 17h30–02h, Jeu-Dim 17h30–03h, Ven-Sam 17h30–04h, Lun-Mar fermé
   // Crosses midnight: check if currently in an open window
   // Evening opening (same day): day is Mer(3),Jeu(4),Ven(5),Sam(6),Dim(0) from 17h30 (1050)
   // Late night (after midnight): check PREVIOUS day's schedule
   const openEvening = [0,3,4,5,6]; // days that open at 17h30
   const prevDay = (day + 6) % 7;
-  // After midnight portion: Mer,Jeu,Dim close at 03h (180min), Ven,Sam close at 04h (240min)
+  // After midnight portion: Mer close at 02h (120min), Jeu,Dim close at 03h (180min), Ven,Sam close at 04h (240min)
   if (openEvening.includes(day) && t >= 1050) {
     isOpen = true; // evening session started
-  } else if ([0,3,4].includes(prevDay) && t < 180) {
-    isOpen = true; // after midnight, prev day was Mer/Jeu/Dim → open until 03h
+  } else if (prevDay === 3 && t < 120) {
+    isOpen = true; // after midnight, prev day was Mer → open until 02h
+  } else if ([0,4].includes(prevDay) && t < 180) {
+    isOpen = true; // after midnight, prev day was Jeu/Dim → open until 03h
   } else if ([5,6].includes(prevDay) && t < 240) {
     isOpen = true; // after midnight, prev day was Ven/Sam → open until 04h
   }
