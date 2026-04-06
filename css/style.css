@@ -62,7 +62,7 @@ img{max-width:100%;display:block}
    HERO
    ═══════════════════════════════════════ */
 .hero{padding:8rem 1.5rem 4rem;text-align:center;position:relative;min-height:85vh;display:flex;flex-direction:column;justify-content:center;align-items:center}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(232,69,10,.08) 0%,transparent 70%)}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(232,69,10,.08) 0%,transparent 70%);pointer-events:none}
 .hero-badge{display:inline-flex;align-items:center;gap:.4rem;background:var(--glass);border:1px solid var(--border);padding:.4rem 1rem;border-radius:50px;font-size:.75rem;color:var(--text2);margin-bottom:1.5rem;backdrop-filter:blur(10px)}
 .hero h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.1;margin-bottom:1rem;max-width:700px}
 .hero h1 em{font-style:italic;color:var(--accent)}
