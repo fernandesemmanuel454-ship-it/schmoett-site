@@ -622,9 +622,13 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 function scrollToSection(id) {
   const section = document.getElementById(id);
   if (!section) return;
-  // Instantly remove reveal animation (no fade, just show)
+  // Force all reveal elements visible instantly
   section.classList.remove('reveal');
-  section.querySelectorAll('.reveal').forEach(el => el.classList.remove('reveal'));
+  section.classList.add('visible');
+  section.querySelectorAll('.reveal').forEach(el => {
+    el.classList.remove('reveal');
+    el.classList.add('visible');
+  });
   // Scroll with offset for fixed navbar
   const navHeight = document.querySelector('.nav')?.offsetHeight || 60;
   const top = section.getBoundingClientRect().top + window.scrollY - navHeight - 10;
