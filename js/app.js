@@ -85,8 +85,11 @@ const UPSELLS = [
   {emoji:'➕',name:'Ingrédient supp.',desc:'Sur votre pizza',price:1.50,id:'op1'},
 ];
 
+const ALLERGENS = {1:'Gluten',2:'Crustacés',3:'Œufs',4:'Poisson',5:'Arachides',6:'Soja',7:'Lait',8:'Fruits à coque',9:'Céleri',10:'Moutarde',11:'Sésame',12:'Sulfites',13:'Lupin',14:'Mollusques'};
+
 const MIN_ORDER = 10;
 let cart = [];
+try { const saved = localStorage.getItem('schmoett_cart'); if (saved) cart = JSON.parse(saved); } catch(e) {}
 let stock = {};
 let toastTimeout = null;
 let pendingUpsell = null;
@@ -120,7 +123,15 @@ function updateStatus() {
 
   if (isOpen) {
     bar.className = 'status-bar open';
-    txt.textContent = 'Ouvert · Click & Collect en 10–15 min';
+    let closeTime = '';
+    if (openEvening.includes(day) && t >= 1050) {
+      if (day === 3) closeTime = '02h';
+      else if ([0,4].includes(day)) closeTime = '03h';
+      else if ([5,6].includes(day)) closeTime = '04h';
+    } else if (prevDay === 3 && t < 120) { closeTime = '02h';
+    } else if ([0,4].includes(prevDay) && t < 180) { closeTime = '03h';
+    } else if ([5,6].includes(prevDay) && t < 240) { closeTime = '04h'; }
+    txt.textContent = 'Ouvert jusqu\'à ' + closeTime + ' · Click & Collect en 10–15 min';
   } else {
     bar.className = 'status-bar closed';
     const days = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
@@ -198,7 +209,7 @@ function renderProducts(filter = 'all') {
         <div class="product-cat">${catLabel(p.cat)}</div>
         <div class="product-name">${p.name}</div>
         <div class="product-desc">${p.desc}</div>
-        ${p.allerg ? `<div class="product-allerg">Allerg. ${p.allerg}</div>` : ''}
+        ${p.allerg ? `<div class="product-allerg">${p.allerg.split(',').map(n => ALLERGENS[n.trim()] || n).join(' · ')}</div>` : ''}
         <div class="product-bottom">
           <span class="product-price">${isOption ? '+' : ''}${p.price.toFixed(2)}€</span>
           <button class="product-add" onclick="addProduct('${p.id}')" ${oos ? 'disabled' : ''}>+</button>
@@ -423,6 +434,7 @@ function updateCart() {
   const count = cart.reduce((s, x) => s + x.qty, 0);
   const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
   document.getElementById('cartCount').textContent = count;
+  try { localStorage.setItem('schmoett_cart', JSON.stringify(cart)); } catch(e) {}
   renderCartBody();
   // Update order button
   const btn = document.getElementById('cartOrderBtn');
@@ -622,6 +634,6 @@ function scrollToSection(id) {
 /* ── INIT ── */
 renderFormules();
 renderProducts();
-/* renderUpsells removed */
 loadStock();
+updateCart();
 checkOrderStatus();

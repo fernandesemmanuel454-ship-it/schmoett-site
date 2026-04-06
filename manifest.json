@@ -1,0 +1,12 @@
+{
+  "name": "Schmoett — Pizzas & Burgers faits maison",
+  "short_name": "Schmoett",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#E8450A",
+  "description": "Commandez en ligne vos pizzas, burgers, tacos et chicken wings. Click & Collect en 10-15 min à Schifflange.",
+  "icons": [
+    {"src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}
