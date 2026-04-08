@@ -560,8 +560,8 @@ async function submitOrder(e) {
   const payload = {
     items: cart.map(x => ({name: x.name, desc: x.desc || '', price: x.price, qty: x.qty})),
     customer: {
-      name: document.getElementById('cName').value,
-      phone: document.getElementById('cPhone').value,
+      prenom: document.getElementById('cName').value,
+      telephone: document.getElementById('cPhone').value,
       email: document.getElementById('cEmail').value,
       note: document.getElementById('cNote').value,
     }
