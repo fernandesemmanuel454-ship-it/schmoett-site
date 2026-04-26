@@ -10,10 +10,8 @@ const PRODUCTS = [
   {id:'p6',name:'Calzone',desc:'Tomates · Mozzarella · Jambon · Champignons · Œuf (pliée)',price:14.00,cat:'pizza',badge:'',emoji:'🍕',allerg:'1,3,7,9'},
   {id:'p7',name:'Thon',desc:'Tomates · Mozzarella · Thon · Oignons · Ail',price:14.00,cat:'pizza',badge:'',emoji:'🐟',allerg:'1,4,7'},
   {id:'p8',name:'Jambon & Champignons',desc:'Tomates · Mozzarella · Jambon · Champignons',price:14.50,cat:'pizza',badge:'',emoji:'🍕',allerg:'1,7,9'},
-  {id:'p9',name:'Lorraine',desc:'Crème fraîche · Mozzarella · Oignons · Lardons · Œuf',price:15.50,cat:'pizza',badge:'',emoji:'🍕',allerg:'1,3,7,9'},
   {id:'p10',name:'Poulet Halal',desc:'Tomates · Mozzarella · Poulet halal · Champignons · Œuf',price:16.00,cat:'pizza',badge:'',emoji:'🍗',allerg:'1,3,7'},
   {id:'p11',name:'4 Fromages',desc:'Tomates · Mozzarella · Gorgonzola · Chèvre · Parmesan',price:16.00,cat:'pizza',badge:'',emoji:'🧀',allerg:'1,7'},
-  {id:'p12',name:'Schmoëtt BBQ',desc:'Sauce BBQ · Mozzarella · Emmental · Lardons · Poulet · Poivrons · Oignons',price:17.50,cat:'pizza',badge:'⭐ Signature',emoji:'🍕',allerg:'1,7,9'},
   {id:'p13',name:'Cristina',desc:'Tomates · Mozzarella · Jambon · Salami piquant · Champignons · Oignons',price:17.50,cat:'pizza',badge:'',emoji:'🍕',allerg:'1,7,9,10'},
   // OPTIONS PIZZA
   {id:'op1',name:'Ingrédient supplémentaire',desc:'Ingrédient au choix en plus sur votre pizza',price:1.50,cat:'option-pizza',badge:'',emoji:'➕',allerg:''},
@@ -70,7 +68,7 @@ const FORMULES = [
       pizza:{label:'Choisissez votre pizza',
         groups:[
           {name:'Classiques (incluses)',extra:0,options:['Margarita','Jambon','Champignons','Salami','Diavola','Thon','Calzone','Jambon & Champignons']},
-          {name:'Spéciales Premium (+3,00€)',extra:3,options:['4 Fromages','Schmoëtt BBQ','Cristina','Lorraine','Poulet Halal']}
+          {name:'Spéciales Premium (+3,00€)',extra:3,options:['4 Fromages','Cristina','Poulet Halal']}
         ]
       },
       bouteille:{label:'Choisissez votre bouteille 1,5L',options:['Coca-Cola 1,5L','Fanta 1,5L','Cristalline 1,5L']}
