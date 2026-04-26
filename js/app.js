@@ -5,7 +5,7 @@ const PRODUCTS = [
   {id:'p1',name:'Margarita',desc:'Tomates · Mozzarella · Basilic',price:11.90,cat:'pizza',badge:'',emoji:'🍕',allerg:'1,7'},
   {id:'p2',name:'Jambon',desc:'Tomates · Mozzarella · Jambon',price:12.90,cat:'pizza',badge:'',emoji:'🍕',allerg:'1,7,9'},
   {id:'p3',name:'Champignons',desc:'Tomates · Mozzarella · Champignons',price:12.90,cat:'pizza',badge:'',emoji:'🍕',allerg:'1,7'},
-  {id:'p4',name:'Diavola',desc:'Tomates · Mozzarella · Salami piquant',price:13.50,cat:'pizza',badge:'🌶️ Piquant',emoji:'🍕',allerg:'1,7,9,10'},
+  {id:'p4',name:'Diavola',desc:'Tomates · Mozzarella · Salami piquant',price:18.50,cat:'pizza',badge:'🌶️ Piquant',emoji:'🍕',allerg:'1,7,9,10'},
   {id:'p5',name:'Salami',desc:'Tomates · Mozzarella · Salami',price:13.50,cat:'pizza',badge:'',emoji:'🍕',allerg:'1,7,9,10'},
   {id:'p6',name:'Calzone',desc:'Tomates · Mozzarella · Jambon · Champignons · Œuf (pliée)',price:14.00,cat:'pizza',badge:'',emoji:'🍕',allerg:'1,3,7,9'},
   {id:'p7',name:'Thon',desc:'Tomates · Mozzarella · Thon · Oignons · Ail',price:14.00,cat:'pizza',badge:'',emoji:'🐟',allerg:'1,4,7'},
@@ -19,7 +19,6 @@ const PRODUCTS = [
   {id:'b1',name:'Le Schmoëtt',desc:'Steak bœuf 150g · Cheddar fondu · Oignons caramélisés · Cornichons · Sauce burger',price:12.90,cat:'burger',badge:'⭐ Signature',emoji:'🍔',allerg:'1,7,10'},
   {id:'b2',name:'Le Grand-Ducal',desc:'Steak bœuf 150g · Kachkeis luxembourgeois · Galette PDT croustillante · Sauce samouraï',price:16.90,cat:'burger',badge:'🇱🇺 Local',emoji:'🍔',allerg:'1,7'},
   {id:'b3',name:'Le Crispy Coq',desc:'Poulet pané 140g · Sauce samouraï · Cornichons',price:11.90,cat:'burger',badge:'',emoji:'🍔',allerg:'1,3,7,10'},
-  {id:'b4',name:'Le Vege-Malin',desc:'Double galette PDT · Cheddar · Cornichons · Sauce burger',price:11.50,cat:'burger',badge:'🌿 Veggie',emoji:'🍔',allerg:'1,3,7'},
   // TACOS (produits & ingrédients préparés sur place)
   {id:'t1',name:'L\'Original',desc:'Steak haché · Cordon bleu dinde · Sauce andalouse · Frites · Sauce fromagère',price:9.90,cat:'tacos',badge:'⭐ Signature',emoji:'🌮',allerg:'1,3,7,10'},
   {id:'t2',name:'Le Crousty',desc:'Poulet pané · Cheddar · Sauce algérienne · Frites · Sauce fromagère',price:8.90,cat:'tacos',badge:'',emoji:'🌮',allerg:'1,3,7,10'},
